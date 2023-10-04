@@ -33,7 +33,6 @@ const App = () => {
         options
       );
       const data = await response.json();
-      // console.log(data);
       setMessage(data.choices[0].message);
     } catch (error) {
       console.error(error);
