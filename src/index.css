@@ -101,12 +101,11 @@ input:focus {
 
 #submit {
     position: absolute;
-    bottom: 0;
-    right: -15;
+    bottom: -2px;
+    right: -15px;
     cursor: pointer;
-    font-size: 45px;
+    font-size: 45px
 }
-
 
 .feed {
     overflow: scroll;
