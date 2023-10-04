@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 const App = () => {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(null);
   const [message, setMessage] = useState(null);
   const [previousChats, setPreviousChats] = useState([]);
   const [currentTitle, setCurrentTitle] = useState([]);
