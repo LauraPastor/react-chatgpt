@@ -102,7 +102,7 @@ input:focus {
 #submit {
     position: absolute;
     bottom: 0;
-    right: 0;
+    right: -15;
     cursor: pointer;
     font-size: 45px;
 }
