@@ -1,10 +1,13 @@
-# Getting Started with Create React App
+# ChatGPT clone based on react
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was created with a boiler plate with [npx create-react-app react-chatgpt).
 
 ## Available Scripts
 
 In the project directory, you can run:
+npm run start:frontend
+npm run start:backend
+You need to use your own API_KEY avalaible in https://platform.openai.com/account/api-keys(https://platform.openai.com/account/api-keys)
 
 ### `npm start`
 
