@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import user from "./duck.jpeg";
+import chat from "./chat.png";
 const App = () => {
   const [value, setValue] = useState("");
   const [message, setMessage] = useState(null);
@@ -93,7 +95,13 @@ const App = () => {
         <ul className="feed">
           {currentChat?.map((chatMessage, index) => (
             <li key={index}>
-              <p className="role">{chatMessage.role}</p>
+              <p className="role">
+                {chatMessage.role == "user" ? (
+                  <img src={user} />
+                ) : (
+                  <img src={chat} />
+                )}
+              </p>
               <p>{chatMessage.content}</p>
             </li>
           ))}

@@ -130,3 +130,8 @@ input:focus {
 .feed p.role {
     min-width: 100px;
 }
+
+img {
+    width: 85px;
+    border-radius: 50%;
+}
