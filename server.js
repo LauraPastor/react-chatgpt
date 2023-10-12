@@ -17,7 +17,7 @@ app.post("/completions", async (req, res) => {
     },
     body: JSON.stringify({
       model: "gpt-3.5-turbo",
-      message: [{ role: "user", content: req.body.message }],
+      messages: [{ role: "user", content: req.body.message }],
       max_tokens: 100,
     }),
   };
@@ -30,6 +30,7 @@ app.post("/completions", async (req, res) => {
     res.send(data);
   } catch (error) {
     console.error(error);
+    res.status(500).send({ error: "Internal Server Error" });
   }
 });
 

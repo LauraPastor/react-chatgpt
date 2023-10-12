@@ -3,7 +3,7 @@ const App = () => {
   const [value, setValue] = useState(null);
   const [message, setMessage] = useState(null);
   const [previousChats, setPreviousChats] = useState([]);
-  const [currentTitle, setCurrentTitle] = useState([]);
+  const [currentTitle, setCurrentTitle] = useState("");
 
   const createNewChat = () => {
     setMessage(null);
@@ -33,14 +33,28 @@ const App = () => {
         options
       );
       const data = await response.json();
-      setMessage(data.choices[0].message);
+
+      console.log(data); // Log the data to understand its structure: currentTitle, value, message
+
+      if (
+        data.choices &&
+        Array.isArray(data.choices) &&
+        data.choices.length > 0
+      ) {
+        setMessage(data.choices[0].message);
+      } else {
+        // Handle the case where choices is undefined or an empty array
+        console.error("Invalid response format:", data);
+        setMessage("The API is not answering!");
+      }
     } catch (error) {
-      console.error(error);
+      console.error("Fetch error:", error);
+      setMessage("An error occurred while communicating with the server.");
     }
   };
+  console.log(message);
 
   useEffect(() => {
-    console.log(currentTitle, value, message);
     if (!currentTitle && value && message) {
       setCurrentTitle(value);
     }
@@ -48,12 +62,9 @@ const App = () => {
       setPreviousChats((prevChats) => [
         ...prevChats,
         { title: currentTitle, role: "user", content: value },
-        //this  is the responds from the AI
         { title: currentTitle, role: message.role, content: message.content },
       ]);
   }, [message, currentTitle]);
-
-  console.log(previousChats);
 
   const currentChat = previousChats.filter(
     (previousChat) => previousChat.title === currentTitle
@@ -61,7 +72,6 @@ const App = () => {
   const uniqueTitles = Array.from(
     new Set(previousChats.map((previousChats) => previousChats.title))
   );
-  console.log(uniqueTitles);
 
   return (
     <div className="app">
