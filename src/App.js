@@ -1,14 +1,28 @@
 import { useState, useEffect } from "react";
 import user from "./duck.jpeg";
 import chat from "./chat.png";
+
 const App = () => {
   const [value, setValue] = useState("");
   const [message, setMessage] = useState(null);
   const [previousChats, setPreviousChats] = useState([]);
   const [currentTitle, setCurrentTitle] = useState("");
 
+  // Load previous chats from local storage on component mount
+  useEffect(() => {
+    const storedChats = localStorage.getItem("previousChats");
+    if (storedChats) {
+      setPreviousChats(JSON.parse(storedChats));
+    }
+  }, []);
+
+  // Save previous chats to local storage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("previousChats", JSON.stringify(previousChats));
+  }, [previousChats]);
+
   const createNewChat = () => {
-    setMessage(null);
+    setMessage("");
     setValue("");
     setCurrentTitle(null);
   };
@@ -36,8 +50,6 @@ const App = () => {
       );
       const data = await response.json();
 
-      console.log(data); // Log the data to understand its structure: currentTitle, value, message
-
       if (
         data.choices &&
         Array.isArray(data.choices) &&
@@ -45,8 +57,7 @@ const App = () => {
       ) {
         setMessage(data.choices[0].message);
       } else {
-        // Handle the case where choices is undefined or an empty array
-        console.error("Invalid response format:", data);
+        console.error(data);
         setMessage("The API is not answering!");
       }
     } catch (error) {
@@ -54,7 +65,6 @@ const App = () => {
       setMessage("An error occurred while communicating with the server.");
     }
   };
-  console.log(message);
 
   useEffect(() => {
     if (!currentTitle && value && message) {
@@ -66,11 +76,15 @@ const App = () => {
         { title: currentTitle, role: "user", content: value },
         { title: currentTitle, role: message.role, content: message.content },
       ]);
+    // eslint-disable-next-line
   }, [message, currentTitle]);
 
-  const currentChat = previousChats.filter(
-    (previousChat) => previousChat.title === currentTitle
-  );
+  const currentChat = currentTitle
+    ? previousChats.filter(
+        (previousChat) => previousChat.title === currentTitle
+      )
+    : [];
+
   const uniqueTitles = Array.from(
     new Set(previousChats.map((previousChats) => previousChats.title))
   );
@@ -96,10 +110,10 @@ const App = () => {
           {currentChat?.map((chatMessage, index) => (
             <li key={index}>
               <p className="role">
-                {chatMessage.role == "user" ? (
-                  <img src={user} />
+                {chatMessage.role === "user" ? (
+                  <img alt="" src={user} />
                 ) : (
-                  <img src={chat} />
+                  <img alt="" src={chat} />
                 )}
               </p>
               <p>{chatMessage.content}</p>

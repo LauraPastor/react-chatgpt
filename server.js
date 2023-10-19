@@ -30,7 +30,9 @@ app.post("/completions", async (req, res) => {
     res.send(data);
   } catch (error) {
     console.error(error);
-    res.status(500).send({ error: "Internal Server Error" });
+    res
+      .status(500)
+      .json({ error: "Internal Server Error", details: error.message });
   }
 });
 
