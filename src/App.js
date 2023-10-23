@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import user from "./duck.jpeg";
 import chat from "./chat.png";
-
+import Deleteicon from "./delete-bin.png";
 const App = () => {
   const [value, setValue] = useState("");
   const [message, setMessage] = useState(null);
@@ -29,7 +29,7 @@ const App = () => {
 
   const handleClick = (uniqueTitle) => {
     setCurrentTitle(uniqueTitle);
-    setMessage(null);
+    setMessage("");
     setValue("");
   };
 
@@ -79,15 +79,17 @@ const App = () => {
     // eslint-disable-next-line
   }, [message, currentTitle]);
 
-  const currentChat = currentTitle
-    ? previousChats.filter(
-        (previousChat) => previousChat.title === currentTitle
-      )
-    : [];
-
+  const currentChat = previousChats.filter(
+    (previousChat) => previousChat.title === currentTitle
+  );
   const uniqueTitles = Array.from(
     new Set(previousChats.map((previousChats) => previousChats.title))
   );
+
+  const handleDelete = (deleteTitle) => {
+    const newChats = previousChats.filter((chat) => chat.title !== deleteTitle);
+    setPreviousChats(newChats);
+  };
 
   return (
     <div className="app">
@@ -97,6 +99,12 @@ const App = () => {
           {uniqueTitles?.map((uniqueTitle, index) => (
             <li key={index} onClick={() => handleClick(uniqueTitle)}>
               {uniqueTitle}
+              <img
+                alt=""
+                src={Deleteicon}
+                role="button"
+                onClick={() => handleDelete(uniqueTitle)}
+              />
             </li>
           ))}
         </ul>

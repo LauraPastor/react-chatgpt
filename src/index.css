@@ -31,9 +31,15 @@ body {
 }
 
 .history li {
+    display: flex;
     list-style-type: none;
     padding: 15px 0;
     cursor: pointer;
+}
+
+.history img {
+    width: 20px;
+    margin-left: auto;
 }
 
 button {
