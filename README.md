@@ -68,7 +68,7 @@ You need to have payment plan to avoid:
 ```javascript
 error: "You exceeded your current quota, please check your plan and billing details."
 ```
-Also there is a list of toDo in [App.js]
+Also there is a list of toDo in [App.js](./src/App.js)
 If you encounter any more issues or have suggestions for improvement, feel free to open an issue or create a pull request.
 
 ## Thanks for reading!
