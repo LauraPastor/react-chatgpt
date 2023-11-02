@@ -1,25 +1,13 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import user from "./duck.jpeg";
-import chat from "./chat.png";
+import assistant from "./chat.png";
 import Deleteicon from "./delete-bin.png";
+//toDo: localstorage, onKey press Enter, fix bug to setValue("") after submit in the input.
 const App = () => {
   const [value, setValue] = useState("");
   const [message, setMessage] = useState(null);
   const [previousChats, setPreviousChats] = useState([]);
   const [currentTitle, setCurrentTitle] = useState("");
-
-  // Load previous chats from local storage on component mount
-  useEffect(() => {
-    const storedChats = localStorage.getItem("previousChats");
-    if (storedChats) {
-      setPreviousChats(JSON.parse(storedChats));
-    }
-  }, []);
-
-  // Save previous chats to local storage whenever it changes
-  useEffect(() => {
-    localStorage.setItem("previousChats", JSON.stringify(previousChats));
-  }, [previousChats]);
 
   const createNewChat = () => {
     setMessage("");
@@ -62,34 +50,42 @@ const App = () => {
       }
     } catch (error) {
       console.error("Fetch error:", error);
-      setMessage("An error occurred while communicating with the server.");
+      setMessage(
+        `An error occurred while communicating with the server: ${error.message}`
+      );
     }
   };
+  const handleDelete = (deleteTitle) => {
+    const newChats = previousChats.filter((chat) => chat.title !== deleteTitle);
+    setPreviousChats(newChats);
+  };
+  // const handleKeyPress = (e) => {
+  //   if (e.key === "Enter") {
+  //     getMessages();
+  //   }
+  // };
 
   useEffect(() => {
     if (!currentTitle && value && message) {
       setCurrentTitle(value);
     }
-    if (currentTitle && value && message)
+
+    if (currentTitle && value && message) {
       setPreviousChats((prevChats) => [
         ...prevChats,
         { title: currentTitle, role: "user", content: value },
         { title: currentTitle, role: message.role, content: message.content },
       ]);
-    // eslint-disable-next-line
+    } // eslint-disable-next-line
   }, [message, currentTitle]);
 
   const currentChat = previousChats.filter(
     (previousChat) => previousChat.title === currentTitle
   );
+
   const uniqueTitles = Array.from(
     new Set(previousChats.map((previousChats) => previousChats.title))
   );
-
-  const handleDelete = (deleteTitle) => {
-    const newChats = previousChats.filter((chat) => chat.title !== deleteTitle);
-    setPreviousChats(newChats);
-  };
 
   return (
     <div className="app">
@@ -121,7 +117,7 @@ const App = () => {
                 {chatMessage.role === "user" ? (
                   <img alt="" src={user} />
                 ) : (
-                  <img alt="" src={chat} />
+                  <img alt="" src={assistant} />
                 )}
               </p>
               <p>{chatMessage.content}</p>
@@ -130,7 +126,11 @@ const App = () => {
         </ul>
         <div className="bottom-section">
           <div className="input-container">
-            <input value={value} onChange={(e) => setValue(e.target.value)} />
+            <input
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
+              // onKeyDown={handleKeyPress}
+            />
             <div id="submit" onClick={getMessages}>
               ➢
             </div>
