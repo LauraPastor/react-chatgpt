@@ -27,34 +27,34 @@ This project is a chat application built with React on the frontend and a Node.j
 git clone https://github.com/your-username/chatgpt-clone.git
 ```
 2. Navigate to the server directory:
-```sh
+```bash
 cd chatgpt-clone/server
 ```
 3. Install dependencies:
-```sh
+```bash
 npm install
 ```
 4. Create a .env file in the server directory and add your OpenAI API key:
-```sh
+```env
 API_KEY=your-openai-api-key
 ```
 5. Start the server:
-```sh
+```bash
 npm run start:backend
 ```
 The server will run on http://localhost:8000.
 
 ### Frontend (React App)
 1. Navigate to the client directory:
-```sh
+```bash
 cd chatgpt-clone/
 ```
 2. Install dependencies:
-```sh
+```bash
 npm install
 ```
 3. Start the React app:
-```sh
+```bash
 npm run start:frontend
 ```
 
@@ -65,7 +65,7 @@ npm run start:frontend
 
 ## Issues and Contributions
 You need to have payment plan to avoid:
-```sh
+```javascript
 error: "You exceeded your current quota, please check your plan and billing details."
 ```
 Also there is a list of toDo in [App.js]
